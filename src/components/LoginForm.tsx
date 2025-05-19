@@ -1,9 +1,9 @@
 // src/components/LoginForm.tsx
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { FaGoogle, FaFacebookF, FaInstagram } from "react-icons/fa";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../hooks/useAuth";
 import FormInput from "./FormInput";
 import styles from "./LoginForm.module.css";
 
@@ -38,13 +38,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
     try {
       if (onSubmit) {
         onSubmit(formData.email, formData.password);
-        return;
+      } else {
+        await login(formData.email, formData.password);
+        alert("Login realizado com sucesso!");
+        navigate("/");
       }
-
-      await login(formData.email, formData.password);
-
-      alert("Login realizado com sucesso!");
-      navigate("/");
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message || "Erro ao fazer login.");
@@ -64,7 +62,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
     <div className={styles.container}>
       <div className={styles.formWrapper}>
         <h2 className={styles.title}>Entrar</h2>
-        <p className={styles.subtitle}>Bem-vindo de volta! Entre com seu e-mail e senha.</p>
+        <p className={styles.subtitle}>
+          Bem-vindo de volta! Entre com seu e-mail e senha.
+        </p>
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <FormInput
@@ -86,9 +86,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
 
           {error && <div className={styles.errorMessage}>{error}</div>}
 
-          <a href="/recover-password" className={styles.link}>
+          <Link to="/recover-password" className={styles.link}>
             Esqueceu a senha?
-          </a>
+          </Link>
 
           <button type="submit" className={styles.button} disabled={loading}>
             {loading ? "Entrando..." : "Entrar"}
@@ -98,25 +98,37 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
         <div className={styles.links}>
           <p className={styles.registerLink}>
             Não tem uma conta?{" "}
-            <a href="/register" className={styles.link}>
+            <Link to="/register" className={styles.link}>
               Cadastre-se
-            </a>
+            </Link>
           </p>
         </div>
 
         <div className={styles.divider}>ou entre com</div>
         <div className={styles.socialButtons}>
-          <button type="button" className={styles.google} onClick={() => handleSocialLogin("Google")}>
+          <button
+            type="button"
+            className={styles.google}
+            onClick={() => handleSocialLogin("Google")}
+          >
             <span className={styles.icon}>
               <FaGoogle />
             </span>
           </button>
-          <button type="button" className={styles.facebook} onClick={() => handleSocialLogin("Facebook")}>
+          <button
+            type="button"
+            className={styles.facebook}
+            onClick={() => handleSocialLogin("Facebook")}
+          >
             <span className={styles.icon}>
               <FaFacebookF />
             </span>
           </button>
-          <button type="button" className={styles.instagram} onClick={() => handleSocialLogin("Instagram")}>
+          <button
+            type="button"
+            className={styles.instagram}
+            onClick={() => handleSocialLogin("Instagram")}
+          >
             <span className={styles.icon}>
               <FaInstagram />
             </span>
