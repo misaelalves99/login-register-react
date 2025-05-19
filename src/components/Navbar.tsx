@@ -1,11 +1,10 @@
 // src/components/Navbar.tsx
 
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom"; // Usando useLocation do React Router
+import { Link, useLocation } from "react-router-dom";
 import styles from "./Navbar.module.css";
 
 const Navbar: React.FC = () => {
-  // 06 - Pathname atual para renderização condicional
   const location = useLocation();
   const [currentPath, setCurrentPath] = useState<string>("");
 

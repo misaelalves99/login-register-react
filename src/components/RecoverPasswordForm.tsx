@@ -1,12 +1,12 @@
 // src/components/RecoverPasswordForm.tsx
 
 import React, { useState } from 'react';
-import { validateEmail } from '../utils/validate'; // Função de validação de e-mail
+import { validateEmail } from '../utils/validate';
 import styles from './RecoverPasswordForm.module.css';
 
 const RecoverPasswordForm: React.FC = () => {
-  const [email, setEmail] = useState<string>(''); // Tipando o estado de e-mail
-  const [message, setMessage] = useState<string>(''); // Tipando o estado da mensagem
+  const [email, setEmail] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
 
   const handleRecoverPassword = (e: React.FormEvent) => {
     e.preventDefault();

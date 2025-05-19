@@ -3,14 +3,11 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// 04-Objetos - Interface tipada para usuário
 interface User {
   name: string;
   email: string;
   token?: string;
 }
-
-// Tipagem do contexto de autenticação
 interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
@@ -18,15 +15,12 @@ interface AuthContextType {
   logout: () => void;
 }
 
-// Criação do contexto
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Provider com ReactNode como children
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const navigate = useNavigate(); // Substitui useRouter do Next.js
+  const navigate = useNavigate();
 
-  // 01-Estruturas e Tratamento - Carregamento inicial do usuário
   useEffect(() => {
     const storedUser = localStorage.getItem('authUser');
     if (storedUser) {
@@ -34,7 +28,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // 02-Funções e Métodos - Login
   const login = async (email: string, password: string) => {
     try {
       const res = await fetch('/api/auth/route', {
@@ -49,7 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const user: User = data.user;
       setUser(user);
       localStorage.setItem('authUser', JSON.stringify(user));
-      navigate('/dashboard'); // Redireciona após login
+      navigate('/dashboard');
     } catch (error: unknown) {
       if (error instanceof Error) {
         alert(error.message);
@@ -57,7 +50,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  // 02-Funções e Métodos - Registro
   const register = async (name: string, email: string, password: string) => {
     try {
       if (password.length < 6) {
@@ -77,7 +69,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const user: User = data.user;
       setUser(user);
       localStorage.setItem('authUser', JSON.stringify(user));
-      navigate('/login'); // Redireciona após registro
+      navigate('/login');
     } catch (error: unknown) {
       if (error instanceof Error) {
         alert(error.message);
@@ -85,11 +77,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  // 02-Funções e Métodos - Logout
   const logout = () => {
     setUser(null);
     localStorage.removeItem('authUser');
-    navigate('/login'); // Redireciona após logout
+    navigate('/login');
   };
 
   return (
@@ -99,7 +90,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// Hook customizado com verificação de uso correto
 export function useAuth(): AuthContextType {
   const context = useContext(AuthContext);
   if (!context) {

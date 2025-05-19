@@ -1,14 +1,14 @@
 // src/components/RegisterForm.tsx
 
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Substituindo o useRouter por useNavigate
+import { useNavigate } from "react-router-dom";
 import { FaGoogle, FaFacebookF, FaInstagram } from 'react-icons/fa';
 import { useAuth } from "../context/AuthContext";
 import styles from "./RegisterForm.module.css";
 import FormInput from "../components/FormInput";
 
 const RegisterForm: React.FC = () => {
-  const navigate = useNavigate(); // Usando react-router-dom
+  const navigate = useNavigate();
   const { register } = useAuth();
 
   const [formData, setFormData] = useState({ name: "", email: "", password: "" });
@@ -28,7 +28,7 @@ const RegisterForm: React.FC = () => {
     try {
       await register(formData.name, formData.email, formData.password);
       setMessage("✅ Conta criada com sucesso!");
-      setTimeout(() => navigate("/auth"), 1500); // Substituindo router.push() por navigate
+      setTimeout(() => navigate("/auth"), 1500);
     } catch (err) {
       console.error(err);
       setMessage("❌ Falha ao criar conta. Tente novamente.");

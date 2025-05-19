@@ -9,7 +9,6 @@ export interface RegisterData extends AuthCredentials {
   name: string;
 }
 
-// Função para fazer login do usuário
 export const loginUser = async (email: string, password: string) => {
   const res = await fetch("/api/auth", {
     method: "POST",
@@ -24,10 +23,9 @@ export const loginUser = async (email: string, password: string) => {
     throw new Error(errorData.message || "Erro ao fazer login.");
   }
 
-  return res.json(); // Retorna os dados do usuário logado
+  return res.json();
 };
 
-// Função para registrar um novo usuário
 export const registerUser = async (name: string, email: string, password: string) => {
   const res = await fetch("/api/user", {
     method: "POST",
@@ -42,5 +40,5 @@ export const registerUser = async (name: string, email: string, password: string
     throw new Error(errorData.message || "Erro ao cadastrar usuário.");
   }
 
-  return res.json(); // Retorna os dados do usuário criado
+  return res.json();
 };

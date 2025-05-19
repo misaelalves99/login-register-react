@@ -1,7 +1,7 @@
 // src/components/LoginForm.tsx
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Substituto para useHistory no React Router v6
+import { useNavigate } from "react-router-dom";
 import { FaGoogle, FaFacebookF, FaInstagram } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
 import FormInput from "./FormInput";
@@ -12,7 +12,7 @@ interface LoginFormProps {
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
-  const navigate = useNavigate(); // v6 - useNavigate substitui useHistory
+  const navigate = useNavigate();
   const { login } = useAuth();
 
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -44,7 +44,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
       await login(formData.email, formData.password);
 
       alert("Login realizado com sucesso!");
-      navigate("/"); // Substituto para history.push
+      navigate("/");
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message || "Erro ao fazer login.");
